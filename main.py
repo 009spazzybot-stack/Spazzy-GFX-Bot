@@ -23,7 +23,8 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Get token from environment
 DISCORD_TOKEN = os.getenv("TOKEN")
-BING_API_KEY = os.getenv("BING_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+GOOGLE_CSE_ID = os.getenv("GOOGLE_CSE_ID")
 
 # Folder structure
 TEMPLATES_DIR = "templates"
@@ -111,24 +112,24 @@ async def download_skin_image(skin_name):
     if os.path.exists(skin_path):
         return skin_path
 
-    if not BING_API_KEY:
+    if not GOOGLE_API_KEY or not GOOGLE_CSE_ID:
         return None
 
     query = quote(f"Fortnite {skin_name} skin render transparent background")
-    url = f"https://api.bing.microsoft.com/v7.0/images/search?q={query}&count=1&safeSearch=Strict"
-
-    headers = {
-        "Ocp-Apim-Subscription-Key": BING_API_KEY
-    }
+    url = (
+        f"https://www.googleapis.com/customsearch/v1?"
+        f"key={GOOGLE_API_KEY}&cx={GOOGLE_CSE_ID}&searchType=image&q={query}&num=1"
+    )
 
     async with aiohttp.ClientSession() as session:
-        async with session.get(url, headers=headers) as response:
+        async with session.get(url) as response:
             if response.status != 200:
                 return None
             data = await response.json()
-            if not data.get("value"):
+            items = data.get("items")
+            if not items:
                 return None
-            image_url = data["value"][0].get("thumbnailUrl") or data["value"][0].get("contentUrl")
+            image_url = items[0].get("link")
             if not image_url:
                 return None
 
