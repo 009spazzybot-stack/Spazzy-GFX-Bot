@@ -1,0 +1,34 @@
+{
+  "bot_name": "GFX Bot",
+  "default_colors": {
+    "primary": "#FF3232",
+    "secondary": "#000000",
+    "accent": "#FFFFFF"
+  },
+  "templates": {
+    "welcome": {
+      "width": 1920,
+      "height": 1080,
+      "file": "templates/welcome.png"
+    },
+    "announcement": {
+      "width": 1200,
+      "height": 630,
+      "file": "templates/announcement.png"
+    },
+    "recruitment": {
+      "width": 1200,
+      "height": 630,
+      "file": "templates/recruitment.png"
+    }
+  },
+  "team_info": {
+    "team_name": "Blaze Esports",
+    "primary_game": "Fortnite",
+    "social_handles": {
+      "twitter": "@BLZESP",
+      "instagram": "@BLZESP",
+      "discord": "blzesp"
+    }
+  }
+}
